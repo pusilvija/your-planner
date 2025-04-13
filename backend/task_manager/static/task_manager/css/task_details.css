@@ -1,0 +1,100 @@
+/* Import general and form styles */
+@import "base.css";
+
+/* Page Title */
+.page-title {
+    color: #003366;
+    background-color: transparent; /* No background */
+    border: none; /* No border */
+    resize: none; /* Prevent resizing */
+    outline: none;
+}
+
+.page-title::placeholder {
+    color: rgba(169, 169, 169, 0.6);
+    font-weight: 300; /* Lighter font weight */
+    font-size: 1em; /* Adjust font size as needed */
+}
+
+/* Table Styling */
+.task-details-table {
+    width: 600px;
+    max-width: 900px; /* Wider table */
+    margin: 15px auto; /* Space between title and table */
+    border-collapse: collapse; /* Remove space between table cells */
+    background-color: rgba(242, 246, 249, 0.7); /* Light pastel background with opacity */
+    border-radius: 12px; /* Rounded corners for table */
+}
+
+.task-details-table td,
+.task-details-table th {
+    background-color: transparent; /* Keep individual cells' background opaque */
+    color: #003366; /* Ensure the text color stays dark and visible */
+    padding: 5px 20px; /* Padding inside each cell for better spacing */
+    border: 1px solid #ddd; /* Light border for the table */
+    text-align: left;
+}
+
+.task-details-table th {
+    font-weight: bold; /* Make header text stand out */
+}
+
+.task-details-table td {
+    /* Ensure the table cell is using flexbox for centering */
+    display: flex;
+    justify-content: center; /* Horizontally center */
+    align-items: center; /* Vertically center */
+    height: 100%; /* Ensure the cell takes the full height */
+}
+
+/* General input and textarea styles */
+.task-details-table input[type="text"],
+.task-details-table textarea {
+    width: 100%; /* Full width for all input fields */
+    padding: 12px;
+    margin: 0; /* Remove margin to prevent unwanted spacing */
+    font-size: 1em;
+    font-family: Arial, sans-serif; /* Set a consistent font family for both */
+    color: #003366; /* Text color */
+    background-color: transparent !important; /* Ensure no background */
+    border: none !important; /* No border */
+    resize: none; /* Prevent resizing */
+    outline: none !important; /* Remove outline by default */
+    box-shadow: none !important; /* Remove box-shadow */
+}
+
+
+/* General Button Styling */
+.button {
+    padding: 14px 24px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    display: inline-block;
+    background-color: #4c6a92;
+}
+
+a.button {
+    text-decoration: none; /* Remove underline */
+}
+
+.button:hover {
+    background-color: #3b4a66; /* Slightly darker on hover */
+    transform: scale(1.05);
+}
+
+.button:active {
+    transform: scale(0.98); /* Slight scale down on click */
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;  /* Align buttons at the opposite ends */
+    width: 100%;  /* Make sure the container takes full width */
+}

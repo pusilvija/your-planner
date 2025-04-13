@@ -1,0 +1,239 @@
+@import "base.css";
+
+
+.task-container-wrapper {
+    display: flex; /* Use flexbox to align child containers horizontally */
+    gap: 20px; /* Add space between the containers */
+    flex-wrap: wrap; /* Allow wrapping to the next line if there's not enough space */
+    /* padding-left: 20px; */
+    scroll-behavior: smooth; 
+    position: relative;
+}
+
+.task-container {
+    min-width: 300px;
+    max-width: 400px;
+    background-color: #e9f4f9;
+    opacity: 0.7;
+    height: auto;
+    border: 2px solid #e9ecf9;
+    border-radius: 8px;
+    top: 250px;
+    left: 50%;
+    transform: translateX(-50%);
+    min-height: 400px;
+    flex: 1 1 auto; 
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 150px;
+    pointer-events: auto; /* Ensure the container can receive mouse events */
+    visibility: visible; 
+}
+
+/* Task Styles */
+.task {
+    width: 100%;
+    height: 80px; /* Slightly taller for better spacing */
+    border: 2px solid #e9ecf9;
+    border-radius: 12px; /* Softer corners */
+    padding: 15px;
+    cursor: grab;
+    position: absolute;
+    z-index: 1;
+    text-align: left; /* Align text to the left */
+    box-sizing: border-box;
+    transition: top 0.2s ease, transform 0.2s ease;
+    user-select: none;
+    background-color: #c4dce7;
+    display: flex;
+    align-items: center; /* Vertically center text */
+    font-size: 1.2em; /* Slightly larger text */
+    font-weight: bold; /* Make it stand out */
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+    margin-top: 50px;
+    color: #003366;
+    transition: none;
+}
+
+/* Style for the dragging task */
+.task.dragging {
+    opacity: 0.3;            /* Makes the task transparent */
+    position: absolute;      /* Position it absolutely while dragging */
+    left: 5%;                /* Optional: Keep it aligned with the left side during drag */
+    pointer-events: none;
+    z-index: 10;
+}
+
+
+/* Add task button */
+#add-task {
+    text-decoration: none; /* Remove underline */
+    display: flex; /* Use flexbox to center content */
+    justify-content: center; /* Center text horizontally */
+    justify-self: right;
+    align-items: center; /* Center text vertically */
+    width: 50px; /* Set width to make it a circle */
+    height: 50px; /* Set height equal to width */
+    background-color: #b0d3e3; /* Light blue background */
+    color: white; /* White text color */
+    font-size: 24px; /* Increase font size */
+    border-radius: 50%; /* Fully round the button */
+    border: none; /* Remove any border */
+    cursor: pointer; /* Change cursor to pointer when hovering */
+    text-align: center; /* Center the text */
+    transition: transform 0.2s ease-in-out; /* Smooth hover effect */
+    position: relative;
+    margin-top: -59px; /* Space above the button */
+    z-index: 2; /* Ensure it appears above other elements */
+    margin-right: 10px;
+}
+
+/* Hover effect */
+#add-task:hover {
+    transform: scale(1.1); /* Slight zoom effect on hover */
+    background-color: #96c1d4; /* Slightly darker shade on hover */
+}
+
+#container-title {
+    margin-left: 30px;
+    text-align: left; /
+}
+
+.save-task {
+    padding: 12px 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: white;
+    background-color: #4c6a92;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    align-self: flex-end;
+}
+
+.save-task:active {
+    transform: scale(0.98);
+}
+
+#task-details-table {
+    margin-bottom: 50px;
+}
+
+.add-task-form label {
+    color: #003366; /* Dark blue color to match the theme */
+    font-weight: bold;
+}
+
+.task-name {
+    flex-grow: 1; /* Push the delete button to the right */
+}
+
+/* General button styles */
+.task-buttons {
+    display: flex;
+    gap: 10px;
+    text-decoration: none;
+    font-size: 18px;
+    margin: none;
+    padding: 5px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out; /* Added background-color transition */
+}
+
+.task-buttons a {
+    display: inline-block; /* Ensures buttons align correctly */
+}
+
+/* Hover effect for individual buttons */
+.delete-task:hover, .edit-task-name:hover {
+    transform: scale(1.1); /* Slightly bigger on hover */
+    border-radius: 5px; /* Retain rounded corners on hover */
+}
+
+/* Image styling for buttons */
+#delete-task img {
+    width: 24px; /* Adjust image size */
+    height: 24px;
+    transition: transform 0.2s ease-in-out;
+}
+
+#edit-task-name img {
+    width: 24px; /* Adjust image size */
+    height: 24px;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Hover effect for images inside buttons */
+#delete-task:hover img {
+    transform: scale(1.2); /* Slightly increase image size on hover */
+}
+
+#edit-task-name:hover img {
+    transform: scale(1.2); /* Make the edit image bigger on hover */
+}
+
+/* Task Name and Edit Input Styles */
+.task-name,
+.edit-input {
+    flex-grow: 1; /* Ensure it takes up available space */
+    width: auto; /* Match the width of the task */
+    height: 65px; /* Match the height of the task */
+    padding: 15px; /* Match the task padding */
+    font-size: 1.2em; /* Match the task font size */
+    font-weight: bold; /* Match the task font weight */
+    color: #003366; /* Match the task text color */
+    background-color: #c4dce7; /* Match the task background color */
+    box-sizing: border-box; /* Include padding and border in width/height */
+    display: block; /* Ensure it behaves like a block element */
+    text-align: left; /* Align text to the left */
+    margin-top: 10px; /* Add spacing between elements */
+}
+
+/* Combined hover effect for task and task-name */
+.task:hover,
+.task:hover .task-name,
+.task-name:hover,
+.task-name:hover .task 
+.edit-input{
+    cursor: pointer;
+    background-color: #c4dce7; /* Slightly darker shade on hover */
+    transform: scale(1.02); /* Subtle zoom effect */
+}
+
+.task:hover {
+    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.15); /* Slightly deeper shadow on hover */
+}
+
+/* Hide the input by default */
+.edit-input {
+    background-color: #c4dce7;
+    border: none;
+}
+
+/* Show the input when editing */
+.edit-input.editing {
+    visibility: visible; /* Make the input visible */
+    opacity: 1; /* Fully opaque */
+}
+
+/* Add hover effect for the edit input (optional) */
+.edit-input:focus {
+    outline: none; /* Remove default focus outline */
+    border: none;
+    background-color: #c4dce7; /* Slightly lighter background on focus */
+}
+
+/* Input Fields */
+input[type="text"],
+input[type="date"],
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+}
