@@ -14,7 +14,6 @@ To run locally:
 `python manage.py runserver`
 
 
-
 `mkdir planner`
 `django-admin startproject mysite planner`
 `python manage.py startapp task_manager`
