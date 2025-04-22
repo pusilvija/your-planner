@@ -6,4 +6,5 @@ from django.urls import path
 
 urlpatterns = [
     path('api/taskboard/', views.TaskBoardView.as_view(), name='taskboard'),
+    path('api/tasks/<int:id>/', views.TaskDetailView.as_view(), name='task-detail'),
 ]

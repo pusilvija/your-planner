@@ -13,6 +13,13 @@ from .models import Task
 from .serializers import TaskSerializer
 from collections import defaultdict
 
+from rest_framework.generics import RetrieveAPIView
+
+
+class TaskDetailView(RetrieveAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+    lookup_field = 'id'  
 
 
 class TaskBoardView(APIView):
