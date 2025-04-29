@@ -14,12 +14,20 @@ from .serializers import TaskSerializer
 from collections import defaultdict
 
 from rest_framework.generics import RetrieveAPIView
+from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.generics import DestroyAPIView
 
 
-class TaskDetailView(RetrieveAPIView):
+class TaskDeleteView(DestroyAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-    lookup_field = 'id'  
+    lookup_field = 'id'
+
+
+class TaskDetailView(RetrieveUpdateAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+    lookup_field = 'id'
 
 
 class TaskBoardView(APIView):
@@ -33,7 +41,7 @@ class TaskBoardView(APIView):
         return Response(grouped)
 
     def post(self, request):
-        data = request.data  # expected: { "to do": [{id, order}], ... }
+        data = request.data
 
         for status, task_list in data.items():
             for task_data in task_list:
