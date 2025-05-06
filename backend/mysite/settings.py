@@ -38,6 +38,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
+    'rest_framework.authtoken',
     'task_manager.apps.TaskManagerConfig',
     'django.contrib.admin',
     'django.contrib.auth',

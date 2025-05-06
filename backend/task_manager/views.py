@@ -1,22 +1,43 @@
-from .models import Task
 from collections import defaultdict
-
-from rest_framework.response import Response
-from .models import Task
-from .serializers import TaskSerializer
-from rest_framework.views import APIView
-
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status as rf_status
-from .models import Task
-from .serializers import TaskSerializer
-from collections import defaultdict
-from .forms import TaskForm
 from django.db.models import F
-from rest_framework import status
+from django.contrib.auth.models import User
+from rest_framework import status as rf_status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.generics import RetrieveUpdateAPIView, DestroyAPIView
+from rest_framework.authtoken.models import Token
 
-from rest_framework.generics import RetrieveUpdateAPIView, CreateAPIView, DestroyAPIView
+from .models import Task
+from .serializers import TaskSerializer, UserSerializer, LoginSerializer
+
+
+# from .models import Task
+# from collections import defaultdict
+
+# from rest_framework.response import Response
+# from .models import Task
+# from .serializers import TaskSerializer
+# from rest_framework.views import APIView
+
+# from rest_framework.views import APIView
+# from rest_framework.response import Response
+# from rest_framework import status as rf_status
+# from .models import Task
+# from .serializers import TaskSerializer
+# from collections import defaultdict
+# from .forms import TaskForm
+# from django.db.models import F
+# from rest_framework import status
+
+# from rest_framework.generics import RetrieveUpdateAPIView, CreateAPIView, DestroyAPIView
+
+# from rest_framework import status
+# from rest_framework.response import Response
+# from rest_framework.views import APIView
+# from rest_framework.authtoken.models import Token
+# from django.contrib.auth.models import User
+# from .serializers import UserSerializer, LoginSerializer
+
 
 
 class TaskDeleteView(DestroyAPIView):
@@ -90,3 +111,25 @@ class TaskBoardView(APIView):
                     continue
 
         return Response({"message": "Tasks updated successfully."}, status=rf_status.HTTP_200_OK)
+
+
+class RegisterView(APIView):
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            # Ensure Token is created for the user
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({"token": token.key}, status=rf_status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=rf_status.HTTP_400_BAD_REQUEST)
+
+
+class LoginView(APIView):
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.validated_data
+            # Ensure Token is retrieved or created for the user
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({"token": token.key})
+        return Response(serializer.errors, status=rf_status.HTTP_400_BAD_REQUEST)
