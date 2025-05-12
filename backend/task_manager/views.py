@@ -10,6 +10,7 @@ from rest_framework.views import APIView
 from rest_framework.generics import RetrieveUpdateAPIView, DestroyAPIView
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.decorators import api_view, permission_classes
 
 from .models import Task
 from .serializers import TaskSerializer, UserSerializer, LoginSerializer
@@ -117,9 +118,16 @@ class LoginView(APIView):
     
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
-        print(request.data)
         if serializer.is_valid():
             user = serializer.validated_data
             token, created = Token.objects.get_or_create(user=user)
             return Response({"token": token.key})
         return Response(serializer.errors, status=rf_status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def logout_user(request):
+    print("LOGGING OUT")
+    request.auth.delete()
+    return Response({"message": "Logged out successfully"}, status=200)
