@@ -34,7 +34,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DJANGO_DEBUG', 'True')
 
-ALLOWED_HOSTS = ['your-planner-production.up.railway.app', 'localhost',]
+ALLOWED_HOSTS = ['your-planner-production.up.railway.app', 'localhost', '127.0.0.1', '*']
 
 
 # Application definition
@@ -69,6 +69,10 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000"
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
+]
+
 # CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'mysite.urls'
@@ -94,40 +98,28 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'planner_db',
-#         'USER': 'planner_user',
-#         'PASSWORD': os.getenv('PLANNER_PASSWORD'),
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
-
 # Set default values for the environment variables if they’re not already set
-# os.environ.setdefault("PGDATABASE", "planner_db")
-# os.environ.setdefault("PGUSER", "planner_db")
-# os.environ.setdefault("PGPASSWORD", os.getenv('PLANNER_PASSWORD'),)
-# os.environ.setdefault("PGHOST", "localhost")
-# os.environ.setdefault("PGPORT", "5432")
+PGDATABASE = "planner_db"
+PGUSER = "planner_user"
+PGPASSWORD = os.getenv('PLANNER_PASSWORD')
+PGHOST = "localhost"
+PGPORT = "5432"
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': os.environ["PGDATABASE"],
-#         'USER': os.environ["PGUSER"],
-#         'PASSWORD': os.environ["PGPASSWORD"],
-#         'HOST': os.environ["PGHOST"],
-#         'PORT': os.environ["PGPORT"],
-# }}
+DATABASE_URL = f"postgres://{PGUSER}:{PGPASSWORD}@{PGHOST}:{PGPORT}/{PGDATABASE}"
 
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL')
+        default=DATABASE_URL
     )
 }
+
+if os.getenv('RAILWAY_ENVIRONMENT_NAME') == 'production':
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=os.getenv('DATABASE_URL')
+        )
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

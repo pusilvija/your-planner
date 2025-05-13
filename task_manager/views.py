@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 from django.db.models import F
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.utils.decorators import method_decorator
 
 from rest_framework import status as rf_status
@@ -96,7 +96,7 @@ class TaskBoardView(APIView):
         return Response({"message": "Tasks updated successfully."}, status=rf_status.HTTP_200_OK)
     
     
-@method_decorator(csrf_protect, name='dispatch')
+@method_decorator(csrf_exempt, name='dispatch')
 class RegisterView(APIView):
     permission_classes = [AllowAny] 
 
@@ -112,7 +112,7 @@ class RegisterView(APIView):
         return Response(serializer.errors, status=rf_status.HTTP_400_BAD_REQUEST)
     
 
-@method_decorator(csrf_protect, name='dispatch')
+@method_decorator(csrf_exempt, name='dispatch')
 class LoginView(APIView):
     permission_classes = [AllowAny] 
     
@@ -123,11 +123,11 @@ class LoginView(APIView):
             token, created = Token.objects.get_or_create(user=user)
             return Response({"token": token.key})
         return Response(serializer.errors, status=rf_status.HTTP_400_BAD_REQUEST)
+    
 
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def logout_user(request):
-    print("LOGGING OUT")
-    request.auth.delete()
-    return Response({"message": "Logged out successfully"}, status=200)
+    def post(self, request):
+        request.user.auth_token.delete()  # Delete the user's token
+        return Response({"message": "Logged out successfully"}, status=200)
