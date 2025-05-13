@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 from django.db.models import F
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_protect
 from django.utils.decorators import method_decorator
 
 from rest_framework import status as rf_status
@@ -96,7 +96,7 @@ class TaskBoardView(APIView):
         return Response({"message": "Tasks updated successfully."}, status=rf_status.HTTP_200_OK)
     
     
-@method_decorator(csrf_exempt, name='dispatch')
+@method_decorator(csrf_protect, name='dispatch')
 class RegisterView(APIView):
     permission_classes = [AllowAny] 
 
@@ -112,7 +112,7 @@ class RegisterView(APIView):
         return Response(serializer.errors, status=rf_status.HTTP_400_BAD_REQUEST)
     
 
-@method_decorator(csrf_exempt, name='dispatch')
+@method_decorator(csrf_protect, name='dispatch')
 class LoginView(APIView):
     permission_classes = [AllowAny] 
     
