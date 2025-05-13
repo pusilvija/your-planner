@@ -89,16 +89,34 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'planner_db',
+#         'USER': 'planner_user',
+#         'PASSWORD': os.getenv('PLANNER_PASSWORD'),
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
+# Set default values for the environment variables if they’re not already set
+# os.environ.setdefault("PGDATABASE", "planner_db")
+# os.environ.setdefault("PGUSER", "planner_db")
+# os.environ.setdefault("PGPASSWORD", os.getenv('PLANNER_PASSWORD'),)
+# os.environ.setdefault("PGHOST", "localhost")
+# os.environ.setdefault("PGPORT", "5432")
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'planner_db',
-        'USER': 'planner_user',
-        'PASSWORD': os.getenv('PLANNER_PASSWORD'),
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
+        'NAME': os.environ["PGDATABASE"],
+        'USER': os.environ["PGUSER"],
+        'PASSWORD': os.environ["PGPASSWORD"],
+        'HOST': os.environ["PGHOST"],
+        'PORT': os.environ["PGPORT"],
+}}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
