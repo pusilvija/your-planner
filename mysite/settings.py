@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 from dotenv import load_dotenv
+import dj_database_url
 
 from pathlib import Path
 
@@ -107,16 +108,22 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # os.environ.setdefault("PGHOST", "localhost")
 # os.environ.setdefault("PGPORT", "5432")
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ["PGDATABASE"],
-        'USER': os.environ["PGUSER"],
-        'PASSWORD': os.environ["PGPASSWORD"],
-        'HOST': os.environ["PGHOST"],
-        'PORT': os.environ["PGPORT"],
-}}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.environ["PGDATABASE"],
+#         'USER': os.environ["PGUSER"],
+#         'PASSWORD': os.environ["PGPASSWORD"],
+#         'HOST': os.environ["PGHOST"],
+#         'PORT': os.environ["PGPORT"],
+# }}
 
+
+DATABASES = {
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL')
+    )
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
