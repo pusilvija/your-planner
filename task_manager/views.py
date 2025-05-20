@@ -129,5 +129,37 @@ class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        request.user.auth_token.delete()  # Delete the user's token
+        request.user.auth_token.delete()
         return Response({"message": "Logged out successfully"}, status=200)
+
+
+class TasksPageView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        tasks = Task.objects.filter(user=request.user).order_by('order')
+        serialized_tasks = TaskSerializer(tasks, many=True).data
+        return Response(serialized_tasks, status=rf_status.HTTP_200_OK)
+
+    def post(self, request):
+        data = request.data 
+        errors = []
+
+        for task_data in data:
+            try:
+                task = Task.objects.get(id=task_data["id"], user=request.user)
+
+                for field, value in task_data.items():
+                    if field != "id":
+                        setattr(task, field, value)
+
+                task.save()
+            except Task.DoesNotExist:
+                errors.append({"id": task_data["id"], "error": "Task does not exist"})
+            except Exception as e:
+                errors.append({"id": task_data.get("id"), "error": str(e)})
+
+        if errors:
+            return Response({"errors": errors}, status=rf_status.HTTP_400_BAD_REQUEST)
+
+        return Response({"message": "Tasks updated successfully."}, status=rf_status.HTTP_200_OK)

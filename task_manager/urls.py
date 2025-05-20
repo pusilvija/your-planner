@@ -11,4 +11,5 @@ urlpatterns = [
     path('api/users/register/', views.RegisterView.as_view(), name='register'),
     path('api/users/login/', views.LoginView.as_view(), name='login'),
     path('api/logout/', views.LogoutView.as_view(), name='logout'),
+    path('api/tasks/', views.TasksPageView.as_view(), name='tasks-page'),
 ]
