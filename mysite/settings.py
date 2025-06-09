@@ -100,28 +100,12 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# Set default values for the environment variables if they’re not already set
-PGDATABASE = "planner_db"
-PGUSER = "planner_user"
-PGPASSWORD = os.getenv('PLANNER_PASSWORD')
-PGHOST = "localhost"
-PGPORT = "5432"
-
-DATABASE_URL = f"postgres://{PGUSER}:{PGPASSWORD}@{PGHOST}:{PGPORT}/{PGDATABASE}"
-
-
 DATABASES = {
     'default': dj_database_url.config(
-        default=DATABASE_URL
+        default=os.getenv('DATABASE_URL')
     )
 }
 
-if os.getenv('RAILWAY_ENVIRONMENT_NAME') == 'production':
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=os.getenv('DATABASE_URL')
-        )
-    }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
