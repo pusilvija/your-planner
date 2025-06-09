@@ -14,6 +14,22 @@ class Task(models.Model):
     status = models.CharField(max_length=50, default='to do', blank=True, null=True)
     description = models.TextField(default="No description", blank=True, null=True)
     category = models.CharField(max_length=50, blank=True, null=True)
+
+    # priority
+    # due_date
+    # created_at
+    # updated_at
+    # completed_at
+    # tags
+    # is_recurring
+    # estimated_time
+    # actual_time
+    # dependencies
+    # attachments
+    # comments
+    # archived
+
+
     order = models.IntegerField(default=0, blank=True, null=True)
 
     class Meta:
