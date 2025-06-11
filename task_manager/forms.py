@@ -7,7 +7,6 @@ class TaskForm(forms.ModelForm):
         model = Task
         fields = ['name', 'status', 'category', 'description', 'order']
 
-    # Ensure the fields are not required
     name = forms.CharField(required=False)
     status = forms.CharField(required=False)
     category = forms.CharField(required=False, initial="none")

@@ -30,7 +30,6 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
-
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField(write_only=True)
@@ -39,7 +38,6 @@ class LoginSerializer(serializers.Serializer):
         username = data.get('username')
         password = data.get('password')
 
-        # Authenticate the user
         user = authenticate(username=username, password=password)
         if not user:
             raise serializers.ValidationError("Invalid username or password")

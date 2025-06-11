@@ -1,8 +1,6 @@
 from collections import defaultdict
 
 from django.db.models import F
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
 
 from rest_framework import status as rf_status
 from rest_framework.response import Response
@@ -10,7 +8,6 @@ from rest_framework.views import APIView
 from rest_framework.generics import RetrieveUpdateAPIView, DestroyAPIView
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from rest_framework.decorators import api_view, permission_classes
 
 from .models import Task
 from .serializers import TaskSerializer, UserSerializer, LoginSerializer
@@ -96,7 +93,6 @@ class TaskBoardView(APIView):
         return Response({"message": "Tasks updated successfully."}, status=rf_status.HTTP_200_OK)
     
     
-@method_decorator(csrf_exempt, name='dispatch')
 class RegisterView(APIView):
     permission_classes = [AllowAny] 
 
@@ -112,7 +108,6 @@ class RegisterView(APIView):
         return Response(serializer.errors, status=rf_status.HTTP_400_BAD_REQUEST)
     
 
-@method_decorator(csrf_exempt, name='dispatch')
 class LoginView(APIView):
     permission_classes = [AllowAny] 
     
