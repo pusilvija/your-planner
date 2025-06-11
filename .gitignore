@@ -85,3 +85,5 @@ coverage.xml
 # Environments
 .env
 venv/
+
+staticfiles/
